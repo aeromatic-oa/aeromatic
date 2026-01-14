@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LoginPage from "@/app/login/page"; 
+import LandingPage from "@/components/LandingPage";
 
 export default function RootPage() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function RootPage() {
       setIsAuth(true);
       router.replace("/home");
     } else {
-      // no hay sesión → mostrar login
+      // no hay sesión → mostrar landing page
       setIsAuth(false);
       setChecking(false);
     }
@@ -28,8 +28,9 @@ export default function RootPage() {
     return <div className="min-h-screen bg-slate-950" />;
   }
 
+  // Mostrar landing page para usuarios no autenticados
   if (!isAuth) {
-    return <LoginPage />;
+    return <LandingPage />;
   }
 
   return null;
