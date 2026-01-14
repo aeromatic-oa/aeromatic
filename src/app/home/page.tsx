@@ -289,7 +289,11 @@ export default function HomePage() {
 
             {/* Derecha */}
             <div className="min-w-0 flex justify-center md:justify-end">
-              <OutdoorPanel tempC={exteriorTemp} humidity={exteriorHum} />
+              <OutdoorPanel 
+                tempC={exteriorTemp} 
+                humidity={exteriorHum}
+                deviceId={selectedDevice?.device_id}
+              />
             </div>
           </div>
         </div>

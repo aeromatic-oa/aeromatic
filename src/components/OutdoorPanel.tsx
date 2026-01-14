@@ -2,19 +2,23 @@
 
 import { useState } from "react";
 import { Thermometer, Droplets } from "lucide-react";
+import { useWindowState } from "@/lib/useWindowState";
 
 type Props = {
   headerLabel?: string;
   tempC?: number;
   humidity?: number;
+  deviceId?: string;
 };
 
 export default function OutdoorPanel({
   headerLabel = "Exterior",
   tempC = 0,
   humidity = 0,
+  deviceId,
 }: Props) {
   const [auto, setAuto] = useState(true);
+  const { isOpen, toggleWindow, loading } = useWindowState(deviceId);
 
   return (
     <div className="flex flex-col items-center text-white">
@@ -78,15 +82,24 @@ export default function OutdoorPanel({
           </span>
         </button>
 
-        {/* Abrir */}
+        {/* Abrir/Cerrar */}
         <button
-          className="
+          onClick={toggleWindow}
+          disabled={loading}
+          className={`
             w-[clamp(7.8rem,42vw,12rem)] h-9 md:h-12
-            rounded-full bg-gradient-to-b from-cyan-800 to-cyan-900
+            rounded-full
             text-white text-[13px] md:text-lg font-semibold shadow-xl
-          "
+            transition-all duration-200
+            disabled:opacity-50
+            ${
+              isOpen
+                ? "bg-gradient-to-b from-red-700 to-red-800"
+                : "bg-gradient-to-b from-cyan-800 to-cyan-900"
+            }
+          `}
         >
-          Abrir
+          {loading ? "..." : isOpen ? "Cerrar" : "Abrir"}
         </button>
 
         {/* Programar */}

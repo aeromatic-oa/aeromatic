@@ -1,104 +1,121 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Legend,
-} from "recharts";
-
-
-const dailySample = [
-  { label: "12 Feb", views: 65, unique: 96, returns: 213 },
-  { label: "13 Feb", views: 73, unique: 42, returns: 189 },
-  { label: "14 Feb", views: 87, unique: 132, returns: 278 },
-];
-
-const monthlySample = [
-  { label: "Nov", views: 1450, unique: 980, returns: 2100 },
-  { label: "Dec", views: 1620, unique: 1100, returns: 2400 },
-  { label: "Jan", views: 1710, unique: 1205, returns: 2630 },
-];
-
-function StatCard({ title, value, diff }: { title: string; value: string; diff: string }) {
-    return (
-      <div className="flex-1 rounded-2xl shadow-md p-4 bg-[#f0fafa]">
-        <div className="text-sm font-semibold text-gray-600 mb-2">{title}</div>
-        <div className="text-3xl font-bold text-black">{value}</div>
-        <div className="text-xs mt-1 text-green-600">{diff}</div>
-      </div>
-    );
-  }
-  
+import { useEffect, useState } from "react";
+import { useUserSpaces } from "@/lib/useUserSpaces";
+import { useSelectedSpace } from "@/lib/useSelectedSpace";
+import { useSpaceDevices } from "@/lib/useSpaceDevices";
+import TelemetryChart from "@/components/TelemetryChart";
+import RoomsTabs from "@/components/RoomsTabs";
 
 export default function StatsPage() {
-    const [mode, setMode] = useState<"daily" | "monthly">("daily");
+  // 1) SPACES del usuario
+  const { spaces, loading: loadingSpaces, refetch } = useUserSpaces();
 
-  const chartData = useMemo(() => {
-    return mode === "daily" ? dailySample : monthlySample;
-  }, [mode]);
+  // 2) espacio seleccionado
+  const { selectedSpaceId, setSelectedSpaceId } = useSelectedSpace(spaces);
+
+  // 3) devices de ese espacio
+  const { devices, loading: loadingDevices } = useSpaceDevices(selectedSpaceId);
+
+  // 4) device seleccionado
+  const [activeDeviceIdx, setActiveDeviceIdx] = useState(0);
+
+  const selectedDevice =
+    devices.length > 0 ? devices[activeDeviceIdx] : undefined;
+
+  // tabs de arriba → SPACES
+  const tabItems = loadingSpaces
+    ? ["Cargando..."]
+    : spaces.map((s: any) => s.name);
 
   return (
-    <div className="min-h-screen pb-24 bg-gradient-to-b from-white to-[#e6f6f7]">
-      {/* Header */}
-      <div className="px-5 pt-6 pb-3 text-center">
-      <h1 className="text-xl font-bold text-black">Analíticas</h1>
-        <div className="mt-4 inline-flex bg-[#eef7ff] rounded-full p-1">
-        <button
-        onClick={() => setMode("daily")}   // 👈 usar setMode aquí
-        className={`px-4 py-1 rounded-full text-sm font-semibold ${
-            mode === "daily" ? "bg-[#bee2e4] text-black" : "text-gray-500"
-        }`}
-        >
-        Diario
-        </button>
-
-        <button
-        onClick={() => setMode("monthly")} // 👈 usar setMode aquí
-        className={`px-4 py-1 rounded-full text-sm font-semibold ${
-            mode === "monthly" ? "bg-[#bee2e4] text-black" : "text-gray-500"
-        }`}
-        >
-        Mensual
-        </button>
-
-        </div>
+    <section className="relative min-h-dvh text-white">
+      {/* Fondo */}
+      <div className="fixed inset-0 -z-10">
+        <div
+          className="
+            absolute inset-0
+            bg-[url('/background.png')] bg-no-repeat bg-cover
+            bg-center md:bg-center
+            transform-gpu origin-center
+            scale-[1.10] sm:scale-[1.05] md:scale-100
+            transition-transform duration-300
+          "
+        />
+        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
       </div>
 
-      {/* Chart */}
-      <div className="px-4">
-        <div className="rounded-2xl bg-white p-3 shadow-md">
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} barGap={6}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="label" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="views" name="Vistas" fill="#4F46E5" />
-                <Bar dataKey="unique" name="Únicos" fill="#EF4444" />
-                <Bar dataKey="returns" name="Retorno" fill="#F59E0B" />
-              </BarChart>
-            </ResponsiveContainer>
+      {/* Tabs de espacios */}
+      <div className="relative z-10 flex justify-center px-4 pt-5">
+        <RoomsTabs
+          items={tabItems}
+          active={
+            selectedSpaceId
+              ? spaces.findIndex((s: any) => s.id === selectedSpaceId)
+              : 0
+          }
+          onChangeActive={(idx) => {
+            const space = spaces[idx];
+            if (space) {
+              setSelectedSpaceId(space.id);
+            }
+          }}
+        />
+      </div>
+
+      {/* Contenido principal */}
+      <div className="relative z-10 mx-auto max-w-[1200px] px-4 sm:px-6 py-8">
+        <div className="min-h-[calc(100dvh-230px)]">
+          {/* Título */}
+          <div className="mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              Estadísticas de Sensores
+            </h1>
+            <p className="text-white/60">
+              Visualiza el histórico completo de los sensores de tu dispositivo
+            </p>
           </div>
+
+          {/* Selector de dispositivos */}
+          {loadingDevices ? (
+            <div className="text-white/80 text-sm mb-6">
+              Cargando dispositivos...
+            </div>
+          ) : devices.length > 0 ? (
+            <div className="mb-8">
+              <p className="text-white/80 text-sm mb-3">Selecciona un dispositivo:</p>
+              <div className="flex gap-3 flex-wrap">
+                {devices.map((d: any, i: number) => (
+                  <button
+                    key={d.device_id}
+                    onClick={() => setActiveDeviceIdx(i)}
+                    className={`px-4 py-2 rounded-full text-sm transition ${
+                      i === activeDeviceIdx
+                        ? "bg-white/90 text-slate-900 font-semibold"
+                        : "bg-white/10 text-white/80 hover:bg-white/20"
+                    }`}
+                  >
+                    {d.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="text-white/60 text-sm mb-6">
+              No hay dispositivos en este espacio
+            </div>
+          )}
+
+          {/* Gráfico de telemetría */}
+          {selectedDevice ? (
+            <TelemetryChart deviceId={selectedDevice.device_id} />
+          ) : (
+            <div className="flex items-center justify-center h-96 text-white/60">
+              Selecciona un dispositivo para ver sus datos
+            </div>
+          )}
         </div>
       </div>
-
-      {/* KPI cards */}
-      <div className="px-4 mt-4 flex gap-3">
-        <StatCard title="Usuarios" value="5.7K" diff="+1.2K (+93%)" />
-        <StatCard title="Sesiones" value="6.3K" diff="+1.4K (+85%)" />
-        <StatCard title="Nuevos" value="2.6K" diff="+0.9K (+97%)" />
-      </div>
-
-      {/* Espacio para no tapar con la barra inferior */}
-      <div className="h-20" />
-    </div>
+    </section>
   );
 }
