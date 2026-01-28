@@ -27,9 +27,9 @@ export default function Navbar({
           <Image
             src={logoSrc}
             alt="Aeromatic"
-            width={300}
-            height={120}
-            className="h-auto w-[160px] sm:w-[190px] md:w-[220px] object-contain"
+            width={420}
+            height={160}
+            className="h-auto w-[220px] sm:w-[260px] md:w-[320px] object-contain"
             priority
           />
         </div>

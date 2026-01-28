@@ -150,7 +150,7 @@ export default function LandingPage() {
               <img 
                 src={darkMode ? "/Logo aeromatic blanco HD.png" : "/Logo aeromatic negro HD.png"} 
                 alt="Aeromatic Logo" 
-                className="h-10 sm:h-14 md:h-16 w-auto"
+                className="h-16 sm:h-24 md:h-32 w-auto"
               />
             </motion.div>
 
@@ -1052,7 +1052,7 @@ export default function LandingPage() {
             <img 
               src={darkMode ? "/Logo aeromatic blanco HD.png" : "/Logo aeromatic negro HD.png"} 
               alt="Aeromatic Logo" 
-              className="h-6 sm:h-8 w-auto"
+              className="h-10 sm:h-14 w-auto"
             />
           </div>
           <p className={`text-xs sm:text-sm text-center ${
