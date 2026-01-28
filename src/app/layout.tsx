@@ -92,6 +92,9 @@ export const metadata: Metadata = {
     ],
     shortcut: "/logo.png",
   },
+  verification: {
+    google: "S_jPdi-C0dVV85tKfy9wJUrEswHn0ImVj2xw3QCx3Fc",
+  },
 };
 
 export const viewport: Viewport = {
