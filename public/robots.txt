@@ -1,0 +1,10 @@
+# Robots.txt for Aeromatic
+# https://aeromatic.app
+
+User-agent: *
+Allow: /
+Disallow: /home/
+Disallow: /login
+Disallow: /api/
+
+Sitemap: https://aeromatic.app/sitemap.xml

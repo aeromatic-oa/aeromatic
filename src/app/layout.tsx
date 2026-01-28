@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Outfit, Manrope } from "next/font/google";
 
@@ -16,9 +16,82 @@ const manrope = Manrope({
   display: "swap",
 });
 
+// ====== SEO METADATA ======
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aeromatic.app";
+
 export const metadata: Metadata = {
-  title: "APP Aeromatic",
-  description: "Next + Tailwind + Capacitor",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Aeromatic | Ventilación Inteligente y Automatizada",
+    template: "%s | Aeromatic",
+  },
+  description:
+    "Aeromatic automatiza la climatización de tus espacios con ventanas inteligentes que responden a factores ambientales. Control remoto, sensores de lluvia y programación horaria.",
+  keywords: [
+    "ventilación inteligente",
+    "ventanas automatizadas",
+    "domótica",
+    "climatización natural",
+    "smart home",
+    "IoT",
+    "control remoto ventanas",
+    "ahorro energético",
+    "Guatemala",
+    "Aeromatic",
+  ],
+  authors: [{ name: "Aeromatic", url: siteUrl }],
+  creator: "Aeromatic",
+  publisher: "Aeromatic",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_GT",
+    url: siteUrl,
+    siteName: "Aeromatic",
+    title: "Aeromatic | Ventilación Inteligente y Automatizada",
+    description:
+      "Automatizamos la climatización de tus espacios con ventanas inteligentes. Control desde tu smartphone, sensores ambientales y ahorro energético.",
+    images: [
+      {
+        url: "/Logo aeromatic negro HD.png",
+        width: 1200,
+        height: 630,
+        alt: "Aeromatic - Ventilación Inteligente",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aeromatic | Ventilación Inteligente",
+    description:
+      "Ventanas automatizadas con control remoto, sensores de lluvia y programación horaria. El futuro de la ventilación natural.",
+    images: ["/Logo aeromatic negro HD.png"],
+    creator: "@aeromatic_oa",
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
+  category: "technology",
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

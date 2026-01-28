@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
-  Wind,
   Zap,
   Shield,
   CloudRain,
@@ -26,6 +25,56 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+
+// ====== SEO: JSON-LD Structured Data ======
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://aeromatic.app/#organization",
+      name: "Aeromatic",
+      url: "https://aeromatic.app",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://aeromatic.app/Logo aeromatic negro HD.png",
+      },
+      description:
+        "Aeromatic automatiza la climatización de espacios con ventanas inteligentes que responden a factores ambientales.",
+      email: "aeromatic.openair@gmail.com",
+      sameAs: [
+        "https://instagram.com/aeromatic_oa",
+        "https://facebook.com/aeromatic",
+        "https://twitter.com/aeromatic_oa",
+        "https://youtube.com/@aeromatic",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://aeromatic.app/#website",
+      url: "https://aeromatic.app",
+      name: "Aeromatic",
+      publisher: { "@id": "https://aeromatic.app/#organization" },
+      description:
+        "Ventilación inteligente y automatizada para hogares y empresas.",
+    },
+    {
+      "@type": "Product",
+      "@id": "https://aeromatic.app/#product",
+      name: "Ventanas Inteligentes Aeromatic",
+      description:
+        "Ventanas pivotantes motorizadas con control remoto, sensores de lluvia y programación horaria. Integrable a Alexa y Google Home.",
+      brand: { "@type": "Brand", name: "Aeromatic" },
+      category: "Domótica / Smart Home",
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "GTQ",
+        availability: "https://schema.org/InStock",
+        url: "https://aeromatic.app/#contacto",
+      },
+    },
+  ],
+};
 
 // Animaciones
 const fadeInUp = {
@@ -121,19 +170,25 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className={`min-h-screen overflow-x-hidden transition-colors duration-500 ${
-      darkMode 
-        ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white" 
-        : "bg-gradient-to-b from-white via-slate-50 to-white text-slate-900"
-    }`}>
-      {/* Navbar */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? darkMode 
+    <>
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className={`min-h-screen overflow-x-hidden transition-colors duration-500 ${
+        darkMode 
+          ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white" 
+          : "bg-gradient-to-b from-white via-slate-50 to-white text-slate-900"
+      }`}>
+        {/* Navbar */}
+        <motion.nav
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+            scrolled
+              ? darkMode 
               ? "bg-slate-950/90 backdrop-blur-lg shadow-lg shadow-cyan-500/5" 
               : "bg-white/90 backdrop-blur-lg shadow-lg shadow-slate-200/50"
             : "bg-transparent"
@@ -1062,6 +1117,7 @@ export default function LandingPage() {
           </p>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }
