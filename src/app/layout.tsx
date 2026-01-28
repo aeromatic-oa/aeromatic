@@ -17,7 +17,7 @@ const manrope = Manrope({
 });
 
 // ====== SEO METADATA ======
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aeromatic.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.aeromatic-oa.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

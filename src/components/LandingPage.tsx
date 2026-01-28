@@ -32,12 +32,12 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://aeromatic.app/#organization",
+      "@id": "https://www.aeromatic-oa.com/#organization",
       name: "Aeromatic",
-      url: "https://aeromatic.app",
+      url: "https://www.aeromatic-oa.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://aeromatic.app/Logo aeromatic negro HD.png",
+        url: "https://www.aeromatic-oa.com/Logo aeromatic negro HD.png",
       },
       description:
         "Aeromatic automatiza la climatización de espacios con ventanas inteligentes que responden a factores ambientales.",
@@ -51,16 +51,16 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://aeromatic.app/#website",
-      url: "https://aeromatic.app",
+      "@id": "https://www.aeromatic-oa.com/#website",
+      url: "https://www.aeromatic-oa.com",
       name: "Aeromatic",
-      publisher: { "@id": "https://aeromatic.app/#organization" },
+      publisher: { "@id": "https://www.aeromatic-oa.com/#organization" },
       description:
         "Ventilación inteligente y automatizada para hogares y empresas.",
     },
     {
       "@type": "Product",
-      "@id": "https://aeromatic.app/#product",
+      "@id": "https://www.aeromatic-oa.com/#product",
       name: "Ventanas Inteligentes Aeromatic",
       description:
         "Ventanas pivotantes motorizadas con control remoto, sensores de lluvia y programación horaria. Integrable a Alexa y Google Home.",
@@ -70,7 +70,7 @@ const jsonLd = {
         "@type": "Offer",
         priceCurrency: "GTQ",
         availability: "https://schema.org/InStock",
-        url: "https://aeromatic.app/#contacto",
+        url: "https://www.aeromatic-oa.com/#contacto",
       },
     },
   ],

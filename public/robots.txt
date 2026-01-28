@@ -1,5 +1,5 @@
 # Robots.txt for Aeromatic
-# https://aeromatic.app
+# https://www.aeromatic-oa.com
 
 User-agent: *
 Allow: /
@@ -7,4 +7,4 @@ Disallow: /home/
 Disallow: /login
 Disallow: /api/
 
-Sitemap: https://aeromatic.app/sitemap.xml
+Sitemap: https://www.aeromatic-oa.com/sitemap.xml
