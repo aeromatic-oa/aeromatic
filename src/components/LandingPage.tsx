@@ -748,7 +748,7 @@ export default function LandingPage() {
                     darkMode ? "bg-slate-800" : "bg-white"
                   }`}
                 >
-                  <div className={`aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
+                  <div className={`aspect-video rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
                     darkMode 
                       ? "bg-gradient-to-br from-slate-700 to-slate-800" 
                       : "bg-gradient-to-br from-slate-100 to-slate-200"
@@ -956,7 +956,7 @@ export default function LandingPage() {
       </section>
 
       {/* Proyectos Section */}
-      <section id="proyectos" className={`py-12 sm:py-20 px-4 transition-colors duration-500 ${
+      {/*<section id="proyectos" className={`py-12 sm:py-20 px-4 transition-colors duration-500 ${
         darkMode ? "bg-slate-900" : "bg-slate-50"
       }`}>
         <div className="max-w-6xl mx-auto">
@@ -983,7 +983,7 @@ export default function LandingPage() {
                 darkMode ? "text-gray-400" : "text-slate-600"
               }`}
             >
-              {/*Conoce algunos de nuestros proyectos más recientes*/}
+              
               Promociona tu proyecto aquí
             </motion.p>
 
@@ -1044,7 +1044,7 @@ export default function LandingPage() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section>*/}
 
       {/* Contacto Section */}
       <section

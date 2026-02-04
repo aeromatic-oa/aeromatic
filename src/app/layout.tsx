@@ -63,7 +63,7 @@ export const metadata: Metadata = {
       "Automatizamos la climatización de tus espacios con ventanas inteligentes. Control desde tu smartphone, sensores ambientales y ahorro energético.",
     images: [
       {
-        url: "/Logo aeromatic negro HD.png",
+        url: "/Logo aeromatic negro updated.png",
         width: 1200,
         height: 630,
         alt: "Aeromatic - Ventilación Inteligente",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     title: "Aeromatic | Ventilación Inteligente",
     description:
       "Ventanas automatizadas con control remoto, sensores de lluvia y programación horaria. El futuro de la ventilación natural.",
-    images: ["/Logo aeromatic negro HD.png"],
+    images: ["/Logo aeromatic negro updated.png"],
     creator: "@aeromatic_oa",
   },
   alternates: {
@@ -84,13 +84,13 @@ export const metadata: Metadata = {
   category: "technology",
   icons: {
     icon: [
-      { url: "/logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo.png", sizes: "192x192", type: "image/png" },
+      { url: "/iconoM.png", sizes: "32x32", type: "image/png" },
+      { url: "/iconoM.png", sizes: "192x192", type: "image/png" },
     ],
     apple: [
-      { url: "/logo.png", sizes: "180x180", type: "image/png" },
+      { url: "/iconoM.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/logo.png",
+    shortcut: "/iconoM.png",
   },
   verification: {
     google: "S_jPdi-C0dVV85tKfy9wJUrEswHn0ImVj2xw3QCx3Fc",
