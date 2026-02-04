@@ -40,7 +40,7 @@ const jsonLd = {
       url: "https://www.aeromatic-oa.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.aeromatic-oa.com/Logo aeromatic negro HD.png",
+        url: "https://www.aeromatic-oa.com/iconoM.png",
       },
       description:
         "Aeromatic automatiza la climatización de espacios con ventanas inteligentes que responden a factores ambientales.",
@@ -283,7 +283,7 @@ export default function LandingPage() {
               onClick={() => scrollToSection("inicio")}
             >
               <img 
-                src={darkMode ? "/Logo aeromatic blanco HD.png" : "/Logo aeromatic negro HD.png"} 
+                src={darkMode ? "/Logo aeromatic blanco updated.png" : "/Logo aeromatic negro updated.png"} 
                 alt="Aeromatic Logo" 
                 className="h-16 sm:h-24 md:h-32 w-auto"
               />
@@ -351,14 +351,14 @@ export default function LandingPage() {
                 </AnimatePresence>
               </motion.button>
 
-              <motion.button
+              {/*<motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => router.push("/login")}
                 className="px-4 lg:px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-white font-medium shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow"
               >
                 Iniciar Sesión
-              </motion.button>
+              </motion.button>*/}
             </div>
 
             {/* Mobile Menu Button */}
@@ -748,35 +748,32 @@ export default function LandingPage() {
                     darkMode ? "bg-slate-800" : "bg-white"
                   }`}
                 >
-                  <div className={`aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center ${
+                  <div className={`aspect-square rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
                     darkMode 
                       ? "bg-gradient-to-br from-slate-700 to-slate-800" 
                       : "bg-gradient-to-br from-slate-100 to-slate-200"
                   }`}>
-                    <motion.div
-                      animate={{ rotateY: [0, 5, 0, -5, 0] }}
-                      transition={{ duration: 6, repeat: Infinity }}
-                      className="relative"
-                    >
-                      <div className={`w-32 h-44 sm:w-48 sm:h-64 border-4 rounded-lg relative bg-gradient-to-br from-blue-200 to-blue-300 ${
-                        darkMode ? "border-slate-500" : "border-slate-700"
-                      }`}>
-                        <div className={`absolute top-0 left-0 right-0 h-1/3 border-b-4 bg-gradient-to-br from-blue-300 to-blue-400 origin-bottom transform hover:-rotate-12 transition-transform duration-500 ${
-                          darkMode ? "border-slate-500" : "border-slate-700"
-                        }`} />
-                      </div>
-                      <motion.div
-                        animate={{ opacity: [0.5, 1, 0.5] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className={`absolute -bottom-6 sm:-bottom-8 left-1/2 -translate-x-1/2 rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 shadow-md ${
-                          darkMode ? "bg-slate-700" : "bg-slate-200"
-                        }`}
-                      >
-                        <Zap className={`w-5 h-5 sm:w-6 sm:h-6 ${
-                          darkMode ? "text-cyan-400" : "text-slate-600"
-                        }`} />
-                      </motion.div>
-                    </motion.div>
+                    <div className="relative w-full h-full flex items-center justify-center group">
+                      {/* Imagen cerrada - visible por defecto */}
+                      <motion.img
+                        src="/prototipoAeromatic.png"
+                        alt="Prototipo Aeromatic Cerrado"
+                        className="absolute w-3/4 h-3/4 object-contain"
+                        initial={{ opacity: 1 }}
+                        whileHover={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                      />
+                      
+                      {/* Imagen abierta - aparece al hover */}
+                      <motion.img
+                        src="/prototipoAeromaticOpen.png"
+                        alt="Prototipo Aeromatic Abierto"
+                        className="absolute w-3/4 h-3/4 object-contain"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -1190,7 +1187,7 @@ export default function LandingPage() {
               <motion.div variants={slideInRight} className="space-y-6 sm:space-y-8">
                 <div className="grid grid-cols-4 sm:grid-cols-2 gap-3 sm:gap-4">
                   {[
-                    { icon: <Instagram className="w-6 h-6 sm:w-8 sm:h-8" />, link: "www.instagram.com/aeromatic_oa" },
+                    { icon: <Instagram className="w-6 h-6 sm:w-8 sm:h-8" />, link: "https://www.instagram.com/aeromatic_oa/" },
                     /*{ icon: <Facebook className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
                     { icon: <Youtube className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
                     { icon: <Twitter className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },*/
@@ -1237,7 +1234,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-2">
             <img 
-              src={darkMode ? "/Logo aeromatic blanco HD.png" : "/Logo aeromatic negro HD.png"} 
+              src={darkMode ? "/Logo aeromatic blanco updated.png" : "/Logo aeromatic negro updated.png"} 
               alt="Aeromatic Logo" 
               className="h-10 sm:h-14 w-auto"
             />
