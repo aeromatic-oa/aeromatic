@@ -748,7 +748,7 @@ export default function LandingPage() {
                     darkMode ? "bg-slate-800" : "bg-white"
                   }`}
                 >
-                  <div className={`aspect-auto rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
+                  <div className={`w-full h-80 sm:h-96 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
                     darkMode 
                       ? "bg-gradient-to-br from-slate-700 to-slate-800" 
                       : "bg-gradient-to-br from-slate-100 to-slate-200"
