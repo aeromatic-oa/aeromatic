@@ -153,7 +153,7 @@ export default function LandingPage() {
       setScrolled(window.scrollY > 50);
 
       // Detectar sección activa
-      const sections = ["inicio", "productos", /*"proyectos",*/ "contacto"];
+      const sections = ["inicio", "productos", "proyectos", "contacto"];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -246,7 +246,7 @@ export default function LandingPage() {
   const navItems = [
     { id: "inicio", label: "Inicio" },
     { id: "productos", label: "Productos" },
-    { id: "proyectos", label: "Proyectos" },
+    /*{ id: "proyectos", label: "Proyectos" },*/
     { id: "contacto", label: "Contacto" },
   ];
 
@@ -750,7 +750,7 @@ export default function LandingPage() {
                   }`}
                 >
                   <div 
-                    className={`w-full h-80 sm:h-96 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
+                    className={`w-120 h-80 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
                       darkMode 
                         ? "bg-gradient-to-br from-slate-700 to-slate-800" 
                         : "bg-gradient-to-br from-slate-100 to-slate-200"
@@ -772,7 +772,7 @@ export default function LandingPage() {
                       <motion.img
                         src="/prototipoAeromaticOpen.png"
                         alt="Prototipo Aeromatic Abierto"
-                        className="absolute w-3/4 h-3/4 object-contain"
+                        className="absolute w-full h-full object-contain"
                         animate={{ opacity: prototypeHover ? 1 : 0 }}
                         transition={{ duration: 0.5 }}
                       />
