@@ -24,7 +24,10 @@ import {
   Twitter,
   Sun,
   Moon,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
 // ====== SEO: JSON-LD Structured Data ======
 const jsonLd = {
@@ -118,6 +121,18 @@ export default function LandingPage() {
   const [activeSection, setActiveSection] = useState("inicio");
   const [darkMode, setDarkMode] = useState(true);
 
+  // Form state
+  const [formData, setFormData] = useState({
+    nombre: "",
+    ciudad: "",
+    proyecto: "",
+    correo: "",
+    mensaje: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+
   useEffect(() => {
     // Verificar preferencia del sistema o localStorage
     const savedMode = localStorage.getItem("darkMode");
@@ -160,6 +175,71 @@ export default function LandingPage() {
       element.scrollIntoView({ behavior: "smooth" });
     }
     setIsMenuOpen(false);
+  };
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setSubmitStatus("idle");
+
+    try {
+      // Validar que todos los campos estén llenos
+      if (!formData.nombre || !formData.ciudad || !formData.proyecto || !formData.correo || !formData.mensaje) {
+        setSubmitStatus("error");
+        setSubmitMessage("Por favor completa todos los campos");
+        setIsLoading(false);
+        return;
+      }
+
+      // Insertar en la tabla 'contactos' de Supabase
+      const { error } = await supabase
+        .from("contactos")
+        .insert([
+          {
+            nombre: formData.nombre,
+            ciudad: formData.ciudad,
+            proyecto: formData.proyecto,
+            correo: formData.correo,
+            mensaje: formData.mensaje,
+            created_at: new Date().toISOString(),
+          }
+        ]);
+
+      if (error) {
+        throw error;
+      }
+
+      // Éxito
+      setSubmitStatus("success");
+      setSubmitMessage("¡Tu mensaje fue enviado correctamente!");
+      setFormData({
+        nombre: "",
+        ciudad: "",
+        proyecto: "",
+        correo: "",
+        mensaje: "",
+      });
+
+      // Limpiar el mensaje después de 5 segundos
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    } catch (error: any) {
+      console.error("Error:", error);
+      setSubmitStatus("error");
+      setSubmitMessage(error.message || "Ocurrió un error al enviar el mensaje");
+      
+      // Limpiar el mensaje después de 5 segundos
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const navItems = [
@@ -906,25 +986,26 @@ export default function LandingPage() {
                 darkMode ? "text-gray-400" : "text-slate-600"
               }`}
             >
-              Conoce algunos de nuestros proyectos más recientes
+              {/*Conoce algunos de nuestros proyectos más recientes*/}
+              Promociona tu proyecto aquí
             </motion.p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {[
                 {
-                  title: "Torre Corporativa Zona 10",
-                  type: "Comercial",
-                  windows: "120+ ventanas",
+                  title: "Tu proyecto corporativo aquí",
+                  type: "Corporativo",
+                  windows: "Ventanas inteligentes",
                 },
                 {
-                  title: "Residencial Vista Hermosa",
+                  title: "Tu proyecto residencial aquí",
                   type: "Residencial",
-                  windows: "45 ventanas",
+                  windows: "Ventanas inteligentes",
                 },
                 {
-                  title: "Hotel Boutique Antigua",
-                  type: "Hospitalidad",
-                  windows: "80+ ventanas",
+                  title: "Tu proyecto comercial aquí",
+                  type: "Comercial",
+                  windows: "Ventanas inteligentes",
                 },
               ].map((project, index) => (
                 <motion.div
@@ -998,17 +1079,18 @@ export default function LandingPage() {
               <motion.form
                 variants={slideInLeft}
                 className="space-y-4 sm:space-y-6"
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={handleFormSubmit}
               >
                 {[
-                  { label: "Nombre", type: "text", placeholder: "Tu nombre" },
-                  { label: "Ciudad", type: "text", placeholder: "Tu ciudad" },
+                  { label: "Nombre", type: "text", name: "nombre", placeholder: "Tu nombre" },
+                  { label: "Ciudad", type: "text", name: "ciudad", placeholder: "Tu ciudad" },
                   {
                     label: "Proyecto",
                     type: "text",
+                    name: "proyecto",
                     placeholder: "Tipo de proyecto",
                   },
-                  { label: "Correo", type: "email", placeholder: "tu@email.com" },
+                  { label: "Correo", type: "email", name: "correo", placeholder: "tu@email.com" },
                 ].map((field, index) => (
                   <div key={index}>
                     <label className={`block mb-2 text-sm ${
@@ -1018,7 +1100,10 @@ export default function LandingPage() {
                     </label>
                     <input
                       type={field.type}
+                      name={field.name}
                       placeholder={field.placeholder}
+                      value={formData[field.name as keyof typeof formData]}
+                      onChange={handleFormChange}
                       className={`w-full bg-transparent border-b-2 py-2 focus:outline-none transition-colors ${
                         darkMode 
                           ? "border-gray-600 text-white placeholder-gray-500 focus:border-cyan-400" 
@@ -1034,8 +1119,11 @@ export default function LandingPage() {
                     Cuéntanos más
                   </label>
                   <textarea
+                    name="mensaje"
                     rows={4}
                     placeholder="Describe tu proyecto..."
+                    value={formData.mensaje}
+                    onChange={handleFormChange}
                     className={`w-full rounded-xl p-4 focus:ring-2 focus:ring-cyan-500 focus:outline-none transition-all resize-none ${
                       darkMode 
                         ? "bg-slate-800/50 text-white placeholder-gray-500" 
@@ -1043,14 +1131,58 @@ export default function LandingPage() {
                     }`}
                   />
                 </div>
+
+                {/* Status Messages */}
+                <AnimatePresence>
+                  {submitStatus === "success" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-2 p-3 rounded-lg bg-green-500/20 border border-green-500/50"
+                    >
+                      <CheckCircle className="w-5 h-5 text-green-500" />
+                      <span className="text-green-500 text-sm">{submitMessage}</span>
+                    </motion.div>
+                  )}
+                  {submitStatus === "error" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-2 p-3 rounded-lg bg-red-500/20 border border-red-500/50"
+                    >
+                      <AlertCircle className="w-5 h-5 text-red-500" />
+                      <span className="text-red-500 text-sm">{submitMessage}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                  whileTap={{ scale: isLoading ? 1 : 0.98 }}
                   type="submit"
-                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-white font-semibold flex items-center gap-2 shadow-lg shadow-cyan-500/25 text-sm sm:text-base"
+                  disabled={isLoading}
+                  className={`px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-white font-semibold flex items-center gap-2 shadow-lg shadow-cyan-500/25 text-sm sm:text-base transition-opacity ${
+                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 >
-                  <Send className="w-4 h-4" />
-                  Enviar
+                  {isLoading ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Send className="w-4 h-4" />
+                      </motion.div>
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Enviar
+                    </>
+                  )}
                 </motion.button>
               </motion.form>
 
@@ -1058,10 +1190,10 @@ export default function LandingPage() {
               <motion.div variants={slideInRight} className="space-y-6 sm:space-y-8">
                 <div className="grid grid-cols-4 sm:grid-cols-2 gap-3 sm:gap-4">
                   {[
-                    { icon: <Instagram className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
-                    { icon: <Facebook className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
+                    { icon: <Instagram className="w-6 h-6 sm:w-8 sm:h-8" />, link: "www.instagram.com/aeromatic_oa" },
+                    /*{ icon: <Facebook className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
                     { icon: <Youtube className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
-                    { icon: <Twitter className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },
+                    { icon: <Twitter className="w-6 h-6 sm:w-8 sm:h-8" />, link: "#" },*/
                   ].map((social, index) => (
                     <motion.a
                       key={index}
