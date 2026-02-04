@@ -152,7 +152,7 @@ export default function LandingPage() {
       setScrolled(window.scrollY > 50);
 
       // Detectar sección activa
-      const sections = ["inicio", "productos", "proyectos", "contacto"];
+      const sections = ["inicio", "productos", /*"proyectos",*/ "contacto"];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -748,7 +748,7 @@ export default function LandingPage() {
                     darkMode ? "bg-slate-800" : "bg-white"
                   }`}
                 >
-                  <div className={`aspect-video rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
+                  <div className={`aspect-auto rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
                     darkMode 
                       ? "bg-gradient-to-br from-slate-700 to-slate-800" 
                       : "bg-gradient-to-br from-slate-100 to-slate-200"
