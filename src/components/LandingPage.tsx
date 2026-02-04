@@ -120,6 +120,7 @@ export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("inicio");
   const [darkMode, setDarkMode] = useState(true);
+  const [prototypeHover, setPrototypeHover] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -748,19 +749,22 @@ export default function LandingPage() {
                     darkMode ? "bg-slate-800" : "bg-white"
                   }`}
                 >
-                  <div className={`w-full h-80 sm:h-96 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
-                    darkMode 
-                      ? "bg-gradient-to-br from-slate-700 to-slate-800" 
-                      : "bg-gradient-to-br from-slate-100 to-slate-200"
-                  }`}>
+                  <div 
+                    className={`w-full h-80 sm:h-96 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden ${
+                      darkMode 
+                        ? "bg-gradient-to-br from-slate-700 to-slate-800" 
+                        : "bg-gradient-to-br from-slate-100 to-slate-200"
+                    }`}
+                    onMouseEnter={() => setPrototypeHover(true)}
+                    onMouseLeave={() => setPrototypeHover(false)}
+                  >
                     <div className="relative w-full h-full flex items-center justify-center group">
                       {/* Imagen cerrada - visible por defecto */}
                       <motion.img
                         src="/prototipoAeromatic.png"
                         alt="Prototipo Aeromatic Cerrado"
-                        className="absolute w-3/4 h-3/4 object-contain"
-                        initial={{ opacity: 1 }}
-                        whileHover={{ opacity: 0 }}
+                        className="absolute w-full h-full object-contain"
+                        animate={{ opacity: prototypeHover ? 0 : 1 }}
                         transition={{ duration: 0.5 }}
                       />
                       
@@ -769,8 +773,7 @@ export default function LandingPage() {
                         src="/prototipoAeromaticOpen.png"
                         alt="Prototipo Aeromatic Abierto"
                         className="absolute w-3/4 h-3/4 object-contain"
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
+                        animate={{ opacity: prototypeHover ? 1 : 0 }}
                         transition={{ duration: 0.5 }}
                       />
                     </div>
